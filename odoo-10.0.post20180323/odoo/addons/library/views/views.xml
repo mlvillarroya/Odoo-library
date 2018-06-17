@@ -1,5 +1,45 @@
 <odoo>
   <data>
+    <record id="view_member_form" model="ir.ui.view">
+      <field name="name">library.member.form</field>
+      <field name="model">library.member</field>
+      <field name="arch" type="xml">
+          <form string="Member">
+              <sheet>
+                  <div class="oe_button_box" name="button_box">
+                      <button name="toggle_active" type="object" groups="library.group_library_user"
+                              class="oe_stat_button" icon="fa-archive">
+                          <field name="active" widget="boolean_button"
+                              options='{"terminology": "archive"}'/>
+                      </button>
+                  </div>
+                  <div class="oe_title">
+                      <label for="name" class="oe_edit_only"/>
+                      <h1>
+                          <field name="name" placeholder="Member's Name"/>
+                      </h1>
+                  </div>
+                  <group>
+                      <group string="Contact Information">
+                          <field name="id_number" />
+                          <field name="address" />
+                          <field name="postalcode"/>
+                          <field name="city"/>
+                          <field name="email" widget="email"/>
+                          <field name="phone"/>
+                      </group>
+                      <group string="Membership">
+                          <field name="membership_number"/>
+                          <field name="date_membership"/>
+                      </group>
+                  </group>
+              </sheet>
+          </form>
+      </field>
+    </record>
+
+
+
     <!-- explicit list view definition -->
     <!--
     <record model="ir.ui.view" id="library.list">
