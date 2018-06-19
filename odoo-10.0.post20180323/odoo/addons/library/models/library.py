@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 
 
 class member(models.Model):
-    # Maquinas objeto del librarymiento"""
+    # Socios de la biblioteca
     _name = 'library.member'
 
     name = fields.Char(size=32, string='Member name', index=True)
@@ -25,9 +25,9 @@ class member(models.Model):
     #Cuando se crea un nuevo socio se genera su número de carnet con la secuencia ir.sequence
     @api.model
     def create(self, data):
-
-
+        #Existe la secuencia para los carnets?
         sequence = self.env['ir.sequence'].search([('code', '=', 'library.member')])
+        #En caso contrario, la creamos
         if not sequence:
             prefix = 'LIB_'
             padding = 4
@@ -35,6 +35,39 @@ class member(models.Model):
             active = True
             sequence = self.env['ir.sequence'].create(
                 {'prefix': prefix, 'padding': padding, 'implementation': implementation, 'active': active, 'name': 'Library member Id ', 'code': 'library.member'})
+        #Escribimos el valor de la secuencia en el campo correspondiente
         data['membership_number'] = sequence.next_by_id()
-
+        #Devolvemos el nuevo valor
         return super(member, self).create(data)
+
+class book(models.Model):
+    # Libros de la biblioteca
+    _name = 'library.book'
+
+    name = fields.Char(size=32, string='Book\'s name', index=True)
+    id_number = fields.Char(size=32, string='ISBN', index=True)
+    date_purchase = fields.Date(string='Date of purchase', default=fields.Datetime.now)
+    date_publishing = fields.Date(string='Publishing date')
+    active = fields.Boolean('Active', default=True)
+    author_id = fields.Many2one('library.author',string='Author')
+    publishing_house_id = fields.Many2one('library.publishing_house',string='Publishing House')
+    state = fields.Selection([('available', 'Available'), ('lent', 'Lent'), ('out_order', 'Out of order')], string='State', default='available')
+    description = fields.Text(string = 'Description')
+
+    _sql_constraints = [('ISBN_uniq', 'unique (id_number)', "ISBN already exists !")]
+
+class author(models.Model):
+    # Autores
+    _name = 'library.author'
+
+    name = fields.Char(size=32, string='Author\'s name', index=True)
+    description = fields.Text(string='Biography')
+    book_ids = fields.One2many('library.book','author_id',string='Books in the library')
+
+class publishing_house(models.Model):
+    #Editoriales
+    _name = 'library.publishing_house'
+
+    name = fields.Char(size=32, string='Publishing house\'s name', index=True)
+    description = fields.Text(string='Biography')
+    book_ids = fields.One2many('library.book','publishing_house_id',string='Books in the library')

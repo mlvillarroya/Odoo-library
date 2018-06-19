@@ -59,6 +59,146 @@
       <field name="view_mode">tree,form</field>
     </record>
 
+    <!-- CLASS BOOK -->
+    <record id="view_book_form" model="ir.ui.view">
+      <field name="name">library.book.form</field>
+      <field name="model">library.book</field>
+      <field name="arch" type="xml">
+          <form string="Member">
+              <sheet>
+                  <div class="oe_button_box" name="button_box">
+                      <button name="toggle_active" type="object"
+                              class="oe_stat_button" icon="fa-archive">
+                          <field name="active" widget="boolean_button"
+                              options='{"terminology": "archive"}'/>
+                      </button>
+                  </div>
+                  <div class="oe_title">
+                      <label for="name" class="oe_edit_only"/>
+                      <h1>
+                          <field name="name" placeholder="Book's Name"/>
+                      </h1>
+                  </div>
+                  <group>
+                    <group>
+                          <field name="id_number" />
+                          <field name="date_purchase" />
+                          <field name="state"/>
+                    </group>
+                    <group>
+                          <field name="date_publishing"/>
+                          <field name="author_id"/>
+                          <field name="publishing_house_id"/>
+                    </group>
+                  </group>
+                  <group>
+                      <field name="description" />
+                  </group>
+              </sheet>
+          </form>
+      </field>
+    </record>
+
+    <record id="view_book_tree" model="ir.ui.view">
+        <field name="name">library.book.tree</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <tree string="books">
+                <field name="state"/>
+                <field name="id_number"/>
+                <field name="name"/>
+                <field name="author_id"/>
+                <field name="publishing_house_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="library.book_action_window">
+      <field name="name">Book window</field>
+      <field name="res_model">library.book</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- CLASS AUTHOR -->
+    <record id="view_author_form" model="ir.ui.view">
+      <field name="name">library.author.form</field>
+      <field name="model">library.author</field>
+      <field name="arch" type="xml">
+          <form string="Member">
+              <sheet>
+                  <div class="oe_title">
+                      <label for="name" class="oe_edit_only"/>
+                      <h1>
+                          <field name="name" placeholder="Author's Name"/>
+                      </h1>
+                  </div>
+                  <group>
+                      <field name="description" />
+                  </group>
+                  <group>
+                          <field name="book_ids" readonly="1"/>
+                  </group>
+              </sheet>
+          </form>
+      </field>
+    </record>
+
+    <record id="view_author_tree" model="ir.ui.view">
+        <field name="name">library.author.tree</field>
+        <field name="model">library.author</field>
+        <field name="arch" type="xml">
+            <tree string="Author">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="library.author_action_window">
+      <field name="name">Author window</field>
+      <field name="res_model">library.author</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- CLASS PUBLISHING HOUSE -->
+    <record id="view_publishing_house_form" model="ir.ui.view">
+      <field name="name">library.publishing_house.form</field>
+      <field name="model">library.publishing_house</field>
+      <field name="arch" type="xml">
+          <form string="Member">
+              <sheet>
+                  <div class="oe_title">
+                      <label for="name" class="oe_edit_only"/>
+                      <h1>
+                          <field name="name" placeholder="publishing_house's Name"/>
+                      </h1>
+                  </div>
+                  <group>
+                      <field name="description" />
+                  </group>
+                  <group>
+                          <field name="book_ids" readonly="1"/>
+                  </group>
+              </sheet>
+          </form>
+      </field>
+    </record>
+
+    <record id="view_publishing_house_tree" model="ir.ui.view">
+        <field name="name">library.publishing_house.tree</field>
+        <field name="model">library.publishing_house</field>
+        <field name="arch" type="xml">
+            <tree string="publishing_house">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="library.publishing_house_action_window">
+      <field name="name">publishing_house window</field>
+      <field name="res_model">library.publishing_house</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
     <!-- Top menu item -->
 
     <menuitem name="Library" id="library.menu_root"/>
@@ -66,14 +206,9 @@
     <!-- menu categories -->
 
     <menuitem name="Members" id="library.menu_members" parent="library.menu_root" action="library.member_action_window"/>
-<!--    <menuitem name="Menu 2" id="library.menu_2" parent="library.menu_root"/>
-    -->
-    <!-- actions -->
-    <!--
-    <menuitem name="List" id="library.menu_1_list" parent="library.menu_1"
-              action="library.action_window"/>
-    <menuitem name="Server to list" id="library" parent="library.menu_2"
-              action="library.action_server"/>
-    -->
+    <menuitem name="Books" id="library.menu_books" parent="library.menu_root" action="library.book_action_window"/>
+    <menuitem name="Authors" id="library.menu_authors" parent="library.menu_root" action="library.author_action_window"/>
+    <menuitem name="Publishing houses" id="library.menu_publishing_houses" parent="library.menu_root" action="library.publishing_house_action_window"/>
+
   </data>
 </odoo>
