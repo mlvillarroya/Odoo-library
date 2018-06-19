@@ -1,5 +1,7 @@
 <odoo>
   <data>
+
+    <!-- CLASS MEMBER -->
     <record id="view_member_form" model="ir.ui.view">
       <field name="name">library.member.form</field>
       <field name="model">library.member</field>
@@ -7,7 +9,7 @@
           <form string="Member">
               <sheet>
                   <div class="oe_button_box" name="button_box">
-                      <button name="toggle_active" type="object" groups="library.group_library_user"
+                      <button name="toggle_active" type="object"
                               class="oe_stat_button" icon="fa-archive">
                           <field name="active" widget="boolean_button"
                               options='{"terminology": "archive"}'/>
@@ -29,7 +31,7 @@
                           <field name="phone"/>
                       </group>
                       <group string="Membership">
-                          <field name="membership_number"/>
+                          <field name="membership_number" readonly="1"/>
                           <field name="date_membership"/>
                       </group>
                   </group>
@@ -38,55 +40,33 @@
       </field>
     </record>
 
-
-
-    <!-- explicit list view definition -->
-    <!--
-    <record model="ir.ui.view" id="library.list">
-      <field name="name">library list</field>
-      <field name="model">library.library</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </tree>
-      </field>
+    <record id="view_member_tree" model="ir.ui.view">
+        <field name="name">library.member.tree</field>
+        <field name="model">library.member</field>
+        <field name="arch" type="xml">
+            <tree string="members">
+                <field name="membership_number"/>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="phone"/>
+            </tree>
+        </field>
     </record>
-    -->
 
-    <!-- actions opening views on models -->
-    <!--
-    <record model="ir.actions.act_window" id="library.action_window">
-      <field name="name">library window</field>
-      <field name="res_model">library.library</field>
+    <record model="ir.actions.act_window" id="library.member_action_window">
+      <field name="name">Member window</field>
+      <field name="res_model">library.member</field>
       <field name="view_mode">tree,form</field>
     </record>
-    -->
-
-    <!-- server action to the one above -->
-    <!--
-    <record model="ir.actions.server" id="library.action_server">
-      <field name="name">library server</field>
-      <field name="model_id" ref="model_library_library"/>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": self._name,
-        }
-      </field>
-    </record>
-    -->
 
     <!-- Top menu item -->
-    <!--
-    <menuitem name="library" id="library.menu_root"/>
-    -->
+
+    <menuitem name="Library" id="library.menu_root"/>
+
     <!-- menu categories -->
-    <!--
-    <menuitem name="Menu 1" id="library.menu_1" parent="library.menu_root"/>
-    <menuitem name="Menu 2" id="library.menu_2" parent="library.menu_root"/>
+
+    <menuitem name="Members" id="library.menu_members" parent="library.menu_root" action="library.member_action_window"/>
+<!--    <menuitem name="Menu 2" id="library.menu_2" parent="library.menu_root"/>
     -->
     <!-- actions -->
     <!--
