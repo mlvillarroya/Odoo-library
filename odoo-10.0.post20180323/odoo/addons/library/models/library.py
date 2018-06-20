@@ -71,3 +71,20 @@ class publishing_house(models.Model):
     name = fields.Char(size=32, string='Publishing house\'s name', index=True)
     description = fields.Text(string='Biography')
     book_ids = fields.One2many('library.book','publishing_house_id',string='Books in the library')
+
+class loan(models.Model):
+    #Préstamos
+    _name = 'library.loan'
+
+    member_id = fields.Many2one('library.member', string='Member')
+    book_id = fields.Many2one('library.book', string='Book', domain="[('state','=','available')]")
+    date_loan = fields.Date(string='Date loan', default=fields.Datetime.now)
+    date_return = fields.Date(compute='_return_date')
+    state = fields.Selection([('new', 'New'), ('1_renewal', 'First renewal'), ('2_renewal', 'Second renewal'), ('out_of_date','Out of date')], string='State', default='new')
+
+    @api.multi
+    def _return_date(self):
+        for record in self:
+            fecha=record.date_loan
+            fecha_fin=datetime.strptime(fecha,'%Y-%m-%d')
+            record.date_return = fecha_fin + timedelta(days=30)

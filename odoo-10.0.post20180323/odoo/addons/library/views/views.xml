@@ -199,6 +199,50 @@
       <field name="view_mode">tree,form</field>
     </record>
 
+    <!-- CLASS LOAN -->
+    <record id="view_loan_form" model="ir.ui.view">
+      <field name="name">library.loan.form</field>
+      <field name="model">library.loan</field>
+      <field name="arch" type="xml">
+          <form string="loan">
+              <sheet>
+                  <group>
+                      <group>
+                          <field name="member_id" />
+                      </group>
+                      <group>
+                          <field name="book_id" />
+                      </group>
+                  </group>
+                  <group>
+                      <field name="date_loan" readonly="1"/>
+                      <field name="date_return" readonly="1"/>
+                      <field name="state" readonly="1"/>
+                  </group>
+              </sheet>
+          </form>
+      </field>
+    </record>
+
+    <record id="view_loan_tree" model="ir.ui.view">
+        <field name="name">library.loan.tree</field>
+        <field name="model">library.loan</field>
+        <field name="arch" type="xml">
+            <tree string="loans">
+                <field name="date_return"/>
+                <field name="member_id"/>
+                <field name="book_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="library.loan_action_window">
+      <field name="name">loan window</field>
+      <field name="res_model">library.loan</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
     <!-- Top menu item -->
 
     <menuitem name="Library" id="library.menu_root"/>
@@ -209,6 +253,7 @@
     <menuitem name="Books" id="library.menu_books" parent="library.menu_root" action="library.book_action_window"/>
     <menuitem name="Authors" id="library.menu_authors" parent="library.menu_root" action="library.author_action_window"/>
     <menuitem name="Publishing houses" id="library.menu_publishing_houses" parent="library.menu_root" action="library.publishing_house_action_window"/>
+    <menuitem name="Loans" id="library.menu_loan" parent="library.menu_root" action="library.loan_action_window"/>
 
   </data>
 </odoo>
