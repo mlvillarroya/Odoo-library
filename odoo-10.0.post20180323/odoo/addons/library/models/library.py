@@ -88,3 +88,26 @@ class loan(models.Model):
             fecha=record.date_loan
             fecha_fin=datetime.strptime(fecha,'%Y-%m-%d')
             record.date_return = fecha_fin + timedelta(days=30)
+
+    @api.model
+    def create(self, data):
+        libro = self.env['library.book'].search([('id', '=', data['book_id'])])
+        libro.state = 'lent'
+        return super(loan, self).create(data)
+
+
+    @api.multi
+    def write(self, vals):
+        if vals['book_id']:
+            libro_antiguo = self.env['library.book'].search([('id', '=', self.book_id.id)])
+            libro_antiguo.state='available'
+            libro_nuevo = self.env['library.book'].search([('id', '=', vals['book_id'])])
+            libro_nuevo.state='lent'
+        return super(loan, self).write(vals)
+
+    @api.multi
+    def unlink(self):
+        libro = self.env['library.book'].search([('id', '=', self.book_id.id)])
+        libro.state = 'available'
+        return super(loan, self).unlink()
+
