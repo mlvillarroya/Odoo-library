@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from datetime import datetime, timedelta
+from odoo.exceptions import UserError
 
 
 class member(models.Model):
@@ -98,7 +99,9 @@ class loan(models.Model):
 
     @api.multi
     def write(self, vals):
-        if vals['book_id']:
+        if (('member_id' in vals) and (vals['member_id'] != self.member_id.id)):
+            raise UserError(_("You can't change the member, cancel the loan instead"))
+        if (('book_id' in vals) and (vals['book_id'] != self.book_id.id)):
             libro_antiguo = self.env['library.book'].search([('id', '=', self.book_id.id)])
             libro_antiguo.state='available'
             libro_nuevo = self.env['library.book'].search([('id', '=', vals['book_id'])])
@@ -107,7 +110,21 @@ class loan(models.Model):
 
     @api.multi
     def unlink(self):
-        libro = self.env['library.book'].search([('id', '=', self.book_id.id)])
-        libro.state = 'available'
+        for record in self:
+            libro = self.env['library.book'].search([('id', '=', record.book_id.id)])
+            libro.state = 'available'
         return super(loan, self).unlink()
 
+    @api.multi
+    def renew_loan(self):
+        fecha_hoy=fields.datetime.now()
+        fecha_nueva=fecha_hoy+timedelta(days=30)
+        if (self.state != '2_renewal'):
+            if (self.state == 'new'):
+                estado='1_renewal'
+            elif (self.state == '1_renewal'):
+                estado='2_renewal'
+            #self.write({'date_return' : fecha_nueva, 'book_id' : self.book_id.id, 'state' : estado})
+            self.write({'date_return' : fecha_nueva, 'state' : estado})
+        else:
+            raise UserError(_("You only can renew a loan twice"))

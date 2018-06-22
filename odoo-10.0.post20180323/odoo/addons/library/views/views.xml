@@ -205,6 +205,9 @@
       <field name="model">library.loan</field>
       <field name="arch" type="xml">
           <form string="loan">
+              <header>
+                 <button string="Renew loan" type="object" name="renew_loan" />
+              </header>
               <sheet>
                   <group>
                       <group>
