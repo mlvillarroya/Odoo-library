@@ -41,6 +41,27 @@ class member(models.Model):
         #Devolvemos el nuevo valor
         return super(member, self).create(data)
 
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            name=record.membership_number + ' \ ' + record.name
+            result.append((record.id, name))
+        return result
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        if not args:
+            args = []
+        if name:
+            members = self.search([('name', 'ilike', name)] + args, limit=limit)
+            if not members:
+                members = self.search([('membership_number', 'ilike', name)] + args, limit=limit)
+        else:
+            members = self.search(args, limit=limit)
+        return members.name_get()
+
+
 class book(models.Model):
     # Libros de la biblioteca
     _name = 'library.book'
