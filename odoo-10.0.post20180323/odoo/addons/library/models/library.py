@@ -54,9 +54,10 @@ class member(models.Model):
         if not args:
             args = []
         if name:
-            members = self.search([('name', 'ilike', name)] + args, limit=limit)
-            if not members:
-                members = self.search([('membership_number', 'ilike', name)] + args, limit=limit)
+            #members = self.search([('name', 'ilike', name)] + args, limit=limit)
+            #if not members:
+            #members = self.search([('membership_number', 'ilike', name)] + args, limit=limit)
+            members = self.search(['|',('name', 'ilike', name),('membership_number', 'ilike', name)] + args, limit=limit)
         else:
             members = self.search(args, limit=limit)
         return members.name_get()
@@ -98,8 +99,8 @@ class loan(models.Model):
     #Préstamos
     _name = 'library.loan'
 
-    member_id = fields.Many2one('library.member', string='Member')
-    book_id = fields.Many2one('library.book', string='Book', domain="[('state','=','available')]")
+    member_id = fields.Many2one('library.member', required=True, string='Member')
+    book_id = fields.Many2one('library.book', required=True, string='Book', domain="[('state','=','available')]")
     date_loan = fields.Date(string='Date loan', default=fields.Datetime.now)
     date_return = fields.Date(compute='_return_date')
     state = fields.Selection([('new', 'New'), ('1_renewal', 'First renewal'), ('2_renewal', 'Second renewal'), ('out_of_date','Out of date')], string='State', default='new')
