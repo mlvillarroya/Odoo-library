@@ -102,20 +102,19 @@ class loan(models.Model):
     member_id = fields.Many2one('library.member', required=True, string='Member')
     book_id = fields.Many2one('library.book', required=True, string='Book', domain="[('state','=','available')]")
     date_loan = fields.Date(string='Date loan', default=fields.Datetime.now)
-    date_return = fields.Date(compute='_return_date')
+    date_return = fields.Date(string='Date return')
     state = fields.Selection([('new', 'New'), ('1_renewal', 'First renewal'), ('2_renewal', 'Second renewal'), ('out_of_date','Out of date')], string='State', default='new')
-
-    @api.multi
-    def _return_date(self):
-        for record in self:
-            fecha=record.date_loan
-            fecha_fin=datetime.strptime(fecha,'%Y-%m-%d')
-            record.date_return = fecha_fin + timedelta(days=30)
 
     @api.model
     def create(self, data):
         libro = self.env['library.book'].search([('id', '=', data['book_id'])])
         libro.state = 'lent'
+        fecha_hoy=fields.datetime.today()
+        data['date_return'] = fecha_hoy+timedelta(days=30)
+        prestamos = self.env['library.loan'].search([('member_id', '=', data['member_id'])])
+        numero_prestamos=len(prestamos)
+        if (numero_prestamos>=3):
+            raise UserError(_("The maxim numer of loans per person is 3, please return a book before loaning one more"))
         return super(loan, self).create(data)
 
 
@@ -124,10 +123,7 @@ class loan(models.Model):
         if (('member_id' in vals) and (vals['member_id'] != self.member_id.id)):
             raise UserError(_("You can't change the member, cancel the loan instead"))
         if (('book_id' in vals) and (vals['book_id'] != self.book_id.id)):
-            libro_antiguo = self.env['library.book'].search([('id', '=', self.book_id.id)])
-            libro_antiguo.state='available'
-            libro_nuevo = self.env['library.book'].search([('id', '=', vals['book_id'])])
-            libro_nuevo.state='lent'
+            raise UserError(_("You can't change the book, cancel the loan instead"))
         return super(loan, self).write(vals)
 
     @api.multi
@@ -139,14 +135,13 @@ class loan(models.Model):
 
     @api.multi
     def renew_loan(self):
-        fecha_hoy=fields.datetime.now()
+        fecha_hoy=fields.datetime.today()
         fecha_nueva=fecha_hoy+timedelta(days=30)
         if (self.state != '2_renewal'):
             if (self.state == 'new'):
                 estado='1_renewal'
             elif (self.state == '1_renewal'):
                 estado='2_renewal'
-            #self.write({'date_return' : fecha_nueva, 'book_id' : self.book_id.id, 'state' : estado})
             self.write({'date_return' : fecha_nueva, 'state' : estado})
         else:
             raise UserError(_("You only can renew a loan twice"))
