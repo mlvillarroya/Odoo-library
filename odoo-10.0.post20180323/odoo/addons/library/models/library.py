@@ -45,7 +45,7 @@ class member(models.Model):
     def name_get(self):
         result = []
         for record in self:
-            name=record.membership_number + ' \ ' + record.name
+            name = '(' + record.membership_number + ') ' + record.name
             result.append((record.id, name))
         return result
 
@@ -67,17 +67,56 @@ class book(models.Model):
     # Libros de la biblioteca
     _name = 'library.book'
 
-    name = fields.Char(size=32, string='Book\'s name', index=True)
+    name = fields.Char(size=32, string='Book\'s name', required=True, index=True)
     id_number = fields.Char(size=32, string='ISBN', index=True)
+    internal_code = fields.Char(size=32, string='Code', index=True)
+    genre_id = fields.Many2one('library.genre', string='Genre', required=True)
     date_purchase = fields.Date(string='Date of purchase', default=fields.Datetime.now)
     date_publishing = fields.Date(string='Publishing date')
     active = fields.Boolean('Active', default=True)
-    author_id = fields.Many2one('library.author',string='Author')
+    author_id = fields.Many2one('library.author',string='Author', required=True)
     publishing_house_id = fields.Many2one('library.publishing_house',string='Publishing House')
     state = fields.Selection([('available', 'Available'), ('lent', 'Lent'), ('out_order', 'Out of order')], string='State', default='available')
     description = fields.Text(string = 'Description')
 
     _sql_constraints = [('ISBN_uniq', 'unique (id_number)', "ISBN already exists !")]
+
+    @api.model
+    def create(self, data):
+        prefix = self.env['library.genre'].search([('id', '=', data['genre_id'])])
+        #Existe la secuencia para los carnets?
+        prefix = prefix.code.upper() + '_'
+        sequence = self.env['ir.sequence'].search([('code', '=', 'library.book'), ('prefix', '=', prefix)])
+        #En caso contrario, la creamos
+        if not sequence:
+            padding = 4
+            implementation = 'no_gap'
+            active = True
+            sequence = self.env['ir.sequence'].create(
+                {'prefix': prefix, 'padding': padding, 'implementation': implementation, 'active': active, 'name': 'Library book Id genre ' + prefix, 'code': 'library.book'})
+        #Escribimos el valor de la secuencia en el campo correspondiente
+        data['internal_code'] = sequence.next_by_id()
+        #Devolvemos el nuevo valor
+        return super(book, self).create(data)
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            name='(' + record.internal_code + ') ' + record.name
+            result.append((record.id, name))
+        return result
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        if not args:
+            args = []
+        if name:
+            books = self.search(['|',('name', 'ilike', name),('internal_code', 'ilike', name)] + args, limit=limit)
+        else:
+            books = self.search(args, limit=limit)
+        return books.name_get()
+
 
 class author(models.Model):
     # Autores
@@ -117,7 +156,6 @@ class loan(models.Model):
             raise UserError(_("The maxim numer of loans per person is 3, please return a book before loaning one more"))
         return super(loan, self).create(data)
 
-
     @api.multi
     def write(self, vals):
         if (('member_id' in vals) and (vals['member_id'] != self.member_id.id)):
@@ -145,3 +183,11 @@ class loan(models.Model):
             self.write({'date_return' : fecha_nueva, 'state' : estado})
         else:
             raise UserError(_("You only can renew a loan twice"))
+
+class genre(models.Model):
+    #Géneros de libro
+    _name = 'library.genre'
+
+    name = fields.Char(size=32, string='Book\'s genre', index=True)
+    code = fields.Char(size=2, string='Code')
+    description = fields.Text(string='Description')

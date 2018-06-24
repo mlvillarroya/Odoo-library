@@ -82,11 +82,13 @@
                   <group>
                     <group>
                           <field name="id_number" />
+                          <field name="internal_code" readonly="1"/>
                           <field name="date_purchase" />
                           <field name="state"/>
                     </group>
                     <group>
                           <field name="date_publishing"/>
+                          <field name="genre_id"/>
                           <field name="author_id"/>
                           <field name="publishing_house_id"/>
                     </group>
@@ -104,6 +106,7 @@
         <field name="model">library.book</field>
         <field name="arch" type="xml">
             <tree string="books">
+                <field name="internal_code"/>
                 <field name="state"/>
                 <field name="id_number"/>
                 <field name="name"/>
@@ -245,6 +248,45 @@
       <field name="view_mode">tree,form</field>
     </record>
 
+    <!-- CLASS GENRE -->
+    <record id="view_genre_form" model="ir.ui.view">
+      <field name="name">library.genre.form</field>
+      <field name="model">library.genre</field>
+      <field name="arch" type="xml">
+          <form string="Member">
+              <sheet>
+                  <div class="oe_title">
+                      <label for="name" class="oe_edit_only"/>
+                      <h1>
+                          <field name="name" placeholder="genre's Name"/>
+                      </h1>
+                  </div>
+                  <group>
+                      <field name="code"/>
+                      <field name="description" />
+                  </group>
+              </sheet>
+          </form>
+      </field>
+    </record>
+
+    <record id="view_genre_tree" model="ir.ui.view">
+        <field name="name">library.genre.tree</field>
+        <field name="model">library.genre</field>
+        <field name="arch" type="xml">
+            <tree string="genre">
+                <field name="code"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="library.genre_action_window">
+      <field name="name">genre window</field>
+      <field name="res_model">library.genre</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
 
     <!-- Top menu item -->
 
@@ -257,6 +299,7 @@
     <menuitem name="Authors" id="library.menu_authors" parent="library.menu_root" action="library.author_action_window"/>
     <menuitem name="Publishing houses" id="library.menu_publishing_houses" parent="library.menu_root" action="library.publishing_house_action_window"/>
     <menuitem name="Loans" id="library.menu_loan" parent="library.menu_root" action="library.loan_action_window"/>
+    <menuitem name="Genres" id="library.menu_genre" parent="library.menu_root" action="library.genre_action_window"/>
 
   </data>
 </odoo>
