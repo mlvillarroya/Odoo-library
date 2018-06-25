@@ -19,6 +19,7 @@ class member(models.Model):
     address = fields.Char(size=32, string='Adress')
     city = fields.Char(size=32, string='City')
     postalcode = fields.Char('Postal code')
+    date_penalty = fields.Date(string='Date penalty')
 
     _sql_constraints = [('DNI_uniq', 'unique (id_number)', "DNI/NIE already exists !")]
 
@@ -183,6 +184,21 @@ class loan(models.Model):
             self.write({'date_return' : fecha_nueva, 'state' : estado})
         else:
             raise UserError(_("You only can renew a loan twice"))
+
+
+    @api.multi
+    def return_loan(self):
+        if ('date_return' in self):
+            fecha_hoy=fields.datetime.today()
+            fecha_dev=datetime.strptime(self.date_return,'%Y-%m-%d')
+            if (fecha_hoy>fecha_dev):
+                dias_tarde = fecha_hoy-fecha_dev
+                date_penalty = fecha_hoy + dias_tarde
+                member = self.env['library.member'].search([('id', '=', self['member_id'].id)])
+                member.write({'date_penalty' : date_penalty})
+#                raise UserError(_("You're late, you're punished"))
+#        return super(loan, self).write()
+
 
 class genre(models.Model):
     #Géneros de libro

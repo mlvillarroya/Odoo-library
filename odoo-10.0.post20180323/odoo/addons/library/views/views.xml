@@ -35,6 +35,9 @@
                           <field name="date_membership"/>
                       </group>
                   </group>
+                  <group>
+                      <field name="date_penalty"/>
+                  </group>
               </sheet>
           </form>
       </field>
@@ -210,6 +213,7 @@
           <form string="loan">
               <header>
                  <button string="Renew loan" type="object" name="renew_loan" />
+                 <button string="Return loan" type="object" name="return_loan" />
               </header>
               <sheet>
                   <group>
