@@ -2,7 +2,7 @@
 
 from odoo import models, fields, api, _
 from datetime import datetime, timedelta
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 
 class member(models.Model):
@@ -20,6 +20,7 @@ class member(models.Model):
     city = fields.Char(size=32, string='City')
     postalcode = fields.Char('Postal code')
     date_penalty = fields.Date(string='Date penalty')
+    penalty_state = fields.Selection([('ok', 'OK'), ('penalty', 'Penalty')], string='Penalty', default='ok')
 
     _sql_constraints = [('DNI_uniq', 'unique (id_number)', "DNI/NIE already exists !")]
 
@@ -188,6 +189,7 @@ class loan(models.Model):
 
     @api.multi
     def return_loan(self):
+        res = {}
         if ('date_return' in self):
             fecha_hoy=fields.datetime.today()
             fecha_dev=datetime.strptime(self.date_return,'%Y-%m-%d')
@@ -196,9 +198,7 @@ class loan(models.Model):
                 date_penalty = fecha_hoy + dias_tarde
                 member = self.env['library.member'].search([('id', '=', self['member_id'].id)])
                 member.write({'date_penalty' : date_penalty})
-#                raise UserError(_("You're late, you're punished"))
-#        return super(loan, self).write()
-
+                member.write({'penalty_state' : 'penalty'})
 
 class genre(models.Model):
     #Géneros de libro

@@ -33,10 +33,11 @@
                       <group string="Membership">
                           <field name="membership_number" readonly="1"/>
                           <field name="date_membership"/>
+                          <field name="penalty_state" invisible="1"/>
                       </group>
                   </group>
                   <group>
-                      <field name="date_penalty"/>
+                      <field name="date_penalty" attrs="{'invisible':[('penalty_state','!=', 'penalty')]}"/>
                   </group>
               </sheet>
           </form>
@@ -294,7 +295,8 @@
 
     <!-- Top menu item -->
 
-    <menuitem name="Library" id="library.menu_root"/>
+    <menuitem name="Library" id="library.menu_root"
+                web_icon="manteni,static/description/icon.png" />
 
     <!-- menu categories -->
 

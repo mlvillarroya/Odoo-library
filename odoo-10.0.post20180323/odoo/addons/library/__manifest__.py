@@ -27,6 +27,7 @@
         # 'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
+        'wizard/message_wizard.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
