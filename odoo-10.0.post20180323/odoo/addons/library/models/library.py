@@ -144,7 +144,7 @@ class loan(models.Model):
     book_id = fields.Many2one('library.book', required=True, string='Book', domain="[('state','=','available')]")
     date_loan = fields.Date(string='Date loan', default=fields.Datetime.now)
     date_return = fields.Date(string='Date return')
-    state = fields.Selection([('new', 'New'), ('1_renewal', 'First renewal'), ('2_renewal', 'Second renewal'), ('out_of_date','Out of date'),('returned','Returned')], string='State', default='new')
+    state = fields.Selection([('new', 'New'), ('1_renewal', 'First renewal'), ('2_renewal', 'Second renewal'), ('returned','Returned')], string='State', default='new')
 
     @api.model
     def create(self, data):
@@ -175,17 +175,21 @@ class loan(models.Model):
 
     @api.multi
     def renew_loan(self):
-        fecha_hoy=fields.datetime.today()
-        fecha_nueva=fecha_hoy+timedelta(days=30)
-        if (self.state != '2_renewal'):
-            if (self.state == 'new'):
-                estado='1_renewal'
-            elif (self.state == '1_renewal'):
-                estado='2_renewal'
-            self.write({'date_return' : fecha_nueva, 'state' : estado})
+        fecha_hoy = fields.datetime.today()
+        fecha_dev = datetime.strptime(self.date_return, '%Y-%m-%d')
+        if (fecha_hoy < fecha_dev):
+            fecha_hoy=fields.datetime.today()
+            fecha_nueva=fecha_hoy+timedelta(days=30)
+            if (self.state != '2_renewal'):
+                if (self.state == 'new'):
+                    estado='1_renewal'
+                elif (self.state == '1_renewal'):
+                    estado='2_renewal'
+                self.write({'date_return' : fecha_nueva, 'state' : estado})
+            else:
+                raise UserError(_("You only can renew a loan twice"))
         else:
-            raise UserError(_("You only can renew a loan twice"))
-
+            raise UserError(_("Your loan is finished, you can't renew it"))
 
     @api.multi
     def return_loan(self):
