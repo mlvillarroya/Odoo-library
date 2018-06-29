@@ -213,8 +213,8 @@
       <field name="arch" type="xml">
           <form string="loan">
               <header>
-                 <button string="Renew loan" type="object" name="renew_loan" />
-                 <button string="Return loan" type="object" name="return_loan" />
+                 <button string="Renew loan" type="object" name="renew_loan" attrs="{'invisible': [('state', '=', 'returned')]}"/>
+                 <button string="Return loan" type="object" name="return_loan" attrs="{'invisible': [('state', '=', 'returned')]}"/>
               </header>
               <sheet>
                   <group>
@@ -240,6 +240,7 @@
         <field name="model">library.loan</field>
         <field name="arch" type="xml">
             <tree string="loans">
+                <field name="state"/>
                 <field name="date_return"/>
                 <field name="member_id"/>
                 <field name="book_id"/>

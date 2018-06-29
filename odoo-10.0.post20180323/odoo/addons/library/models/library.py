@@ -144,7 +144,7 @@ class loan(models.Model):
     book_id = fields.Many2one('library.book', required=True, string='Book', domain="[('state','=','available')]")
     date_loan = fields.Date(string='Date loan', default=fields.Datetime.now)
     date_return = fields.Date(string='Date return')
-    state = fields.Selection([('new', 'New'), ('1_renewal', 'First renewal'), ('2_renewal', 'Second renewal'), ('out_of_date','Out of date')], string='State', default='new')
+    state = fields.Selection([('new', 'New'), ('1_renewal', 'First renewal'), ('2_renewal', 'Second renewal'), ('out_of_date','Out of date'),('returned','Returned')], string='State', default='new')
 
     @api.model
     def create(self, data):
@@ -191,6 +191,9 @@ class loan(models.Model):
     def return_loan(self):
         res = {}
         if ('date_return' in self):
+            self.write({'state': 'returned'})
+            libro = self.env['library.book'].search([('id', '=', self.book_id.id)])
+            libro.write({'state': 'available'})
             fecha_hoy=fields.datetime.today()
             fecha_dev=datetime.strptime(self.date_return,'%Y-%m-%d')
             if (fecha_hoy>fecha_dev):
