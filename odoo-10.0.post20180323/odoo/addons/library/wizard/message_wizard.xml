@@ -3,9 +3,9 @@
 <data>	
 	
 	
-	<record id="sh_message_wizard" model="ir.ui.view">
-		<field name="name">sh.message.wizard</field>
-		<field name="model">sh.message.wizard</field>
+	<record id="message_wizard" model="ir.ui.view">
+		<field name="name">library.message_wizard</field>
+		<field name="model">library.message</field>
 		<field name="arch" type="xml">
 			<form string="Message">
 				<field name="name"/>

@@ -2,8 +2,8 @@
 # Part of Softhealer Technologies.
 from odoo import api, fields, models, _
 
-class sh_message_wizard(models.TransientModel):
-    _name="sh.message.wizard"
+class message(models.TransientModel):
+    _name="library.message"
     
     def get_default(self):
         if self.env.context.get("message",False):
@@ -11,5 +11,3 @@ class sh_message_wizard(models.TransientModel):
         return False 
 
     name=fields.Text(string="Message",readonly=True,default=get_default)
-    
-    
