@@ -319,12 +319,14 @@
 
     <!-- menu categories -->
 
-    <menuitem name="Members" id="library.menu_members" parent="library.menu_root" action="library.member_action_window"/>
-    <menuitem name="Books" id="library.menu_books" parent="library.menu_root" action="library.book_action_window"/>
-    <menuitem name="Authors" id="library.menu_authors" parent="library.menu_root" action="library.author_action_window"/>
-    <menuitem name="Publishing houses" id="library.menu_publishing_houses" parent="library.menu_root" action="library.publishing_house_action_window"/>
-    <menuitem name="Loans" id="library.menu_loan" parent="library.menu_root" action="library.loan_action_window"/>
-    <menuitem name="Genres" id="library.menu_genre" parent="library.menu_root" action="library.genre_action_window"/>
+    <menuitem name="Loans" id="library.menu_loan" parent="library.menu_root" action="library.loan_action_window" sequence="1"/>
+
+    <menuitem name="Members" id="library.menu_members" parent="library.menu_root" action="library.member_action_window" sequence="2"/>
+    <menuitem name="Books" id="library.menu_books" parent="library.menu_root" action="library.book_action_window" sequence="3"/>
+    <menuitem name="Setup" id="library.menu_setup" parent="library.menu_root" sequence="4"/>
+    <menuitem name="Authors" id="library.menu_authors" parent="library.menu_setup" action="library.author_action_window" sequence="5"/>
+    <menuitem name="Publishing houses" id="library.menu_publishing_houses" parent="library.menu_setup" action="library.publishing_house_action_window" sequence="6"/>
+    <menuitem name="Genres" id="library.menu_genre" parent="library.menu_setup" action="library.genre_action_window" sequence="7"/>
 
   </data>
 </odoo>

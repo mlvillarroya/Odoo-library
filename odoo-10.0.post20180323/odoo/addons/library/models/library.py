@@ -152,7 +152,7 @@ class loan(models.Model):
         libro.state = 'lent'
         fecha_hoy=fields.datetime.today()
         data['date_return'] = fecha_hoy+timedelta(days=30)
-        prestamos = self.env['library.loan'].search([('member_id', '=', data['member_id'])])
+        prestamos = self.env['library.loan'].search([('member_id', '=', data['member_id']),('state', 'in', ['new','1_renewal','2_renewal'])])
         numero_prestamos=len(prestamos)
         if (numero_prestamos>=3):
             raise UserError(_("The maxim numer of loans per person is 3, please return a book before loaning one more"))
@@ -193,37 +193,38 @@ class loan(models.Model):
 
     @api.multi
     def return_loan(self):
-        res = {}
-        if ('date_return' in self):
-            self.write({'state': 'returned'})
-            libro = self.env['library.book'].search([('id', '=', self.book_id.id)])
-            libro.write({'state': 'available'})
-            fecha_hoy=fields.datetime.today()
-            fecha_dev=datetime.strptime(self.date_return,'%Y-%m-%d')
-            if (fecha_hoy>fecha_dev):
-                dias_tarde = fecha_hoy-fecha_dev
-                date_penalty = fecha_hoy + dias_tarde
-                member = self.env['library.member'].search([('id', '=', self['member_id'].id)])
-                member.write({'date_penalty' : date_penalty})
-                member.write({'penalty_state' : 'penalty'})
+        for record in self:
+            res = {}
+            if ('date_return' in record):
+                record.write({'state': 'returned'})
+                libro = self.env['library.book'].search([('id', '=', record.book_id.id)])
+                libro.write({'state': 'available'})
+                fecha_hoy=fields.datetime.today()
+                fecha_dev=datetime.strptime(record.date_return,'%Y-%m-%d')
+                if (fecha_hoy>fecha_dev):
+                    dias_tarde = fecha_hoy-fecha_dev
+                    date_penalty = fecha_hoy + dias_tarde
+                    member = self.env['library.member'].search([('id', '=', record['member_id'].id)])
+                    member.write({'date_penalty' : date_penalty})
+                    member.write({'penalty_state' : 'penalty'})
 
-                #CUADRO DE DIALOGO: SANCIÓN
-                view = self.env.ref('library.message_wizard')
-                view_id = view and view.id or False
-                context = dict(self._context or {})
-                context['message'] = 'Por haber entregado el libro '+ str(dias_tarde.days) + ' días tarde, no se podrá efectuar ningún préstamo hasta pasado el ' + datetime.strftime(date_penalty,'%d/%m/%Y')
-                return {
-                    'name': 'Sanción',
-                    'type': 'ir.actions.act_window',
-                    'view_type': 'form',
-                    'view_mode': 'form',
-                    'view_id': view_id,
-                    'res_model': 'library.message',
-                    'views': [(view.id, 'form')],
-                    'view_id': view.id,
-                    'target': 'new',
-                    'context': context,
-                }
+                    #CUADRO DE DIALOGO: SANCIÓN
+                    view = self.env.ref('library.message_wizard')
+                    view_id = view and view.id or False
+                    context = dict(self._context or {})
+                    context['message'] = 'Por haber entregado el libro '+ str(dias_tarde.days) + ' días tarde, no se podrá efectuar ningún préstamo hasta pasado el ' + datetime.strftime(date_penalty,'%d/%m/%Y')
+                    return {
+                        'name': 'Sanción',
+                        'type': 'ir.actions.act_window',
+                        'view_type': 'form',
+                        'view_mode': 'form',
+                        'view_id': view_id,
+                        'res_model': 'library.message',
+                        'views': [(view.id, 'form')],
+                        'view_id': view.id,
+                        'target': 'new',
+                        'context': context,
+                    }
 
 class genre(models.Model):
     #Géneros de libro
