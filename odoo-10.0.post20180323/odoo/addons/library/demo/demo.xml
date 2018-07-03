@@ -73,7 +73,6 @@ He has written under a number of pseudonyms, including Frederick Bliss, Brian Gr
 
       <record id="book1" model="library.book">
           <field name="name">El señor de los anillos</field>
-          <field name="internal_code">SF_0001</field>
           <field name="active">True</field>
           <field name="date_purchase" >2017-08-01</field>
           <field name="date_publishing" >1954-06-19</field>
@@ -87,7 +86,6 @@ He has written under a number of pseudonyms, including Frederick Bliss, Brian Gr
 
       <record id="book2" model="library.book">
           <field name="name">El Hobbit</field>
-          <field name="internal_code">SF_002</field>
           <field name="active">True</field>
           <field name="date_purchase" >2017-08-01</field>
           <field name="date_publishing" >2002-06-24</field>
@@ -105,7 +103,6 @@ Una saga espléndidamente escrita de enanos y elfos, duendes y trasgos terribles
 
       <record id="book3" model="library.book">
           <field name="name">Fundación</field>
-          <field name="internal_code">SF_003</field>
           <field name="active">True</field>
           <field name="date_purchase">2017-08-01</field>
           <field name="date_publishing">2013-06-01</field>
@@ -119,7 +116,6 @@ Una saga espléndidamente escrita de enanos y elfos, duendes y trasgos terribles
 
       <record id="book4" model="library.book">
           <field name="name">Dune</field>
-          <field name="internal_code">SF_004</field>
           <field name="active">True</field>
           <field name="date_purchase" >2017-08-01</field>
           <field name="date_publishing" >2015-08-01</field>
@@ -133,7 +129,6 @@ Una saga espléndidamente escrita de enanos y elfos, duendes y trasgos terribles
 
       <record id="book5" model="library.book">
           <field name="name">La sombra de Ender</field>
-          <field name="internal_code">SF_005</field>
           <field name="active">True</field>
           <field name="date_purchase" >2017-08-01</field>
           <field name="date_publishing" >2011-08-01</field>
@@ -147,7 +142,6 @@ Una saga espléndidamente escrita de enanos y elfos, duendes y trasgos terribles
 
       <record id="book6" model="library.book">
           <field name="name">Fariña</field>
-          <field name="internal_code">IN_0001</field>
           <field name="active">True</field>
           <field name="date_purchase">2017-08-01</field>
           <field name="date_publishing">2016-08-01</field>
