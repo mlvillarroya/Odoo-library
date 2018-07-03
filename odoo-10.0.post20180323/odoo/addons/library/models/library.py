@@ -226,7 +226,7 @@ class loan(models.Model):
                     date_penalty = fecha_hoy + dias_tarde
                     member = self.env['library.member'].search([('id', '=', record['member_id'].id)])
                     member.write({'date_penalty' : date_penalty})
-
+                    #TODO SUMAR LAS SANCIONES SI SE DEVUELVE MÁS DE UN LIBRO TARDE
                     #CUADRO DE DIALOGO: SANCIÓN
                     view = self.env.ref('library.message_wizard')
                     view_id = view and view.id or False
