@@ -36,7 +36,7 @@
                       </group>
                   </group>
                   <group>
-                      <field name="penalty_state"/>
+                      <field name="penalty_state" attrs="{'invisible':[('penalty_state','!=', 'penalty')]}"/>
                       <field name="date_penalty" attrs="{'invisible':[('penalty_state','!=', 'penalty')]}"/>
                   </group>
               </sheet>
@@ -48,7 +48,8 @@
         <field name="name">library.member.tree</field>
         <field name="model">library.member</field>
         <field name="arch" type="xml">
-            <tree string="members">
+            <tree string="members" decoration-danger="penalty_state=='penalty'">
+                <field name="penalty_state" invisible="1"/>
                 <field name="membership_number"/>
                 <field name="name"/>
                 <field name="email"/>

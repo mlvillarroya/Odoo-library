@@ -70,10 +70,8 @@ class member(models.Model):
             fecha_hoy = fields.datetime.today()
             if (record.date_penalty):
                 fecha_pen = datetime.strptime(record.date_penalty, '%Y-%m-%d')
-                if (fecha_hoy > fecha_pen):
-                    record.update({'date_penalty' : False, 'penalty_state' : ''})
-                else:
-                    record.update({'penalty_state' : u'lalala'})
+                if (fecha_pen > fecha_hoy):
+                    record.update({'penalty_state' : u'penalty'})
 
 class book(models.Model):
     # Libros de la biblioteca
