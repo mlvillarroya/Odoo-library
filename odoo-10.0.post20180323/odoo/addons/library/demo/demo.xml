@@ -1,30 +1,163 @@
 <odoo>
     <data>
-        <!--  -->
-        <!--   <record id="object0" model="library.library"> -->
-        <!--     <field name="name">Object 0</field> -->
-        <!--     <field name="value">0</field> -->
-        <!--   </record> -->
-        <!--  -->
-        <!--   <record id="object1" model="library.library"> -->
-        <!--     <field name="name">Object 1</field> -->
-        <!--     <field name="value">10</field> -->
-        <!--   </record> -->
-        <!--  -->
-        <!--   <record id="object2" model="library.library"> -->
-        <!--     <field name="name">Object 2</field> -->
-        <!--     <field name="value">20</field> -->
-        <!--   </record> -->
-        <!--  -->
-        <!--   <record id="object3" model="library.library"> -->
-        <!--     <field name="name">Object 3</field> -->
-        <!--     <field name="value">30</field> -->
-        <!--   </record> -->
-        <!--  -->
-        <!--   <record id="object4" model="library.library"> -->
-        <!--     <field name="name">Object 4</field> -->
-        <!--     <field name="value">40</field> -->
-        <!--   </record> -->
-        <!--  -->
+
+        <!-- Authors -->
+
+      <record id="author1" model="library.author">
+          <field name="name">J.R.R Tolkien</field>
+          <field name="description">John Ronald Reuel Tolkien, CBE (AFI: dʒɒn ˈɹʷɒnld ˈɹʷuːəl ˈtʰɒlkiːn) (Bloemfontein, hoy Sudáfrica; 3 de enero de 1892 - Bournemouth, Dorset; 2 de septiembre de 1973), a menudo citado como J. R. R. Tolkien o JRRT, fue un escritor, poeta, servidor militar, filólogo, lingüista y profesor universitario británico nacido en el desaparecido Orange al sur de África, conocido principalmente por ser el autor de las novelas clásicas de fantasía heroica El hobbit y El Señor de los Anillos.
+
+De 1925 a 1945, Tolkien ocupó la cátedra Rawlinson y Bosworth en la Universidad de Oxford, enseñando anglosajón y, de 1945 a 1959, fue profesor de Lengua y Literatura inglesa en Merton. Era amigo cercano del también escritor C. S. Lewis y ambos eran miembros de un informal grupo de debate literario conocido como los Inklings. Tolkien fue nombrado Comendador de la Orden del Imperio Británico por la reina Isabel II el 28 de marzo de 1972.1​
+
+Después de su muerte, el tercer hijo de Tolkien, Christopher, publicó una serie de obras basadas en las amplias notas y manuscritos inéditos de su padre, entre ellas El Silmarillion y Los hijos de Húrin. Estos libros, junto con El hobbit y El Señor de los Anillos, forman un cuerpo conectado de cuentos, poemas, historias de ficción, idiomas inventados y ensayos literarios sobre un mundo imaginado llamado Arda, y más extensamente sobre uno de sus continentes, conocido como la Tierra Media. Entre 1951 y 1955, Tolkien aplicó la palabra legendarium a la mayor parte de estos escritos.2​3​4​5​
+
+Si bien escritores como William Morris, Robert E. Howard y E. R. Eddison precedieron a Tolkien en el género literario de fantasía con obras tan famosas e influyentes como las de Conan el Bárbaro,6​ el gran éxito de El hobbit y El Señor de los Anillos cuando se publicaron en Estados Unidos condujo directamente al resurgimiento popular del género.6​7​ Esto ha causado que Tolkien sea identificado popularmente como «el padre» de la literatura moderna de fantasía,8​ o más concretamente, de la alta fantasía.9​ Los trabajos de Tolkien han inspirado muchas otras obras de fantasía y han tenido un efecto duradero en todo el campo. En 2008, el periódico The Times le clasificó sexto en una lista de «Los 50 escritores británicos más grandes desde 1945».10</field>
+      </record>
+
+      <record id="author2" model="library.author">
+          <field name="name">Isaac Asimov</field>
+          <field name="description">Isaac Asimov (ˈaɪzək ˈæzəməf; en ruso А́йзек Ази́мов —Áyzek Azímov—, nombre original: Исаáк Ю́дович Ози́мов —Isaak Yúdovich Ozímov— Petróvichi, RSFS de Rusia, 20 de diciembre de 1919jul./ 2 de enero de 1920greg.-Nueva York, Estados Unidos, 6 de abril de 1992) fue un escritor y profesor de bioquímica en la facultad de medicina de la Universidad de Boston de origen ruso, nacionalizado estadounidense, conocido por ser un prolífico autor de obras de ciencia ficción, historia y divulgación científica.2​ Asimov, asimismo, tenía un dilatado conocimiento sobre las ciencias naturales en todo su conjunto.
+
+La obra más famosa de Asimov es la Saga de la Fundación, también conocida como Trilogía o Ciclo de Trántor, que forma parte de la serie del Imperio Galáctico y que más tarde combinó con su otra gran serie sobre los robots. También escribió obras de misterio y fantasía, así como una gran cantidad de textos de no ficción. En total, firmó más de 500 volúmenes y unas 9000 cartas o postales. Sus trabajos han sido publicados en 9 de las 10 categorías del Sistema Dewey de clasificación.
+
+Asimov, junto con Robert A. Heinlein y Arthur C. Clarke, fue considerado en vida como uno de los «tres grandes» escritores de ciencia ficción.3​
+
+La mayoría de sus libros de divulgación explican los conceptos científicos siguiendo una línea histórica, retrotrayéndose lo más posible a tiempos en que la ciencia en cuestión se encontraba en una etapa elemental. A menudo brinda la nacionalidad, las fechas de nacimiento y muerte de los científicos que menciona, así como las etimologías de las palabras técnicas.
+
+Asimov fue miembro de Mensa durante mucho tiempo, a cuyos miembros describía como «intelectualmente combativos». Disfrutaba más de la presidencia de la Asociación Humanista Estadounidense, una organización de ideología atea.
+
+En 1981 se nombró a un asteroide, el (5020) Asimov, en su honor.</field>
+      </record>
+
+      <record id="author3" model="library.author">
+          <field name="name">Frank Herbert</field>
+          <field name="description">Nació en Tacoma, Washington. Trabajó en múltiples trabajos como fotógrafo, cámara de televisión, presentador de radio, incluso de pescador de ostras o analista. En 1965 presenta Dune con gran éxito de público y crítica, consigue el premio Hugo y el premio Nébula además del premio Internacional de Fantasía (junto con la novela: El señor de las moscas). Después ampliaría esta novela con otras cinco más hasta su muerte, continuando otros escritores con otros títulos pero con la misma referencia.
+
+Gran parte de su obra refleja su interés por la ecología y la psicología. En sus últimos veinte años y junto con su familia residieron en una «granja biológica», primero cerca de Washington y más tarde en Hawái, viviendo de forma autosuficiente y en pleno contacto con la naturaleza.</field>
+      </record>
+
+      <record id="author4" model="library.author">
+          <field name="name">Nacho Carretero Pou</field>
+      </record>
+
+      <record id="author5" model="library.author">
+          <field name="name">Orson Scott Card</field>
+          <field name="description">Orson Scott Card (born August 24, 1951) is an American novelist, critic, public speaker, essayist, and columnist. He writes in several genres but is known best for science fiction. His novel Ender's Game (1985) and its sequel Speaker for the Dead (1986) both won Hugo[2][3] and Nebula Awards,[2][4] making Card the only author to win both science fiction's top U.S. prizes in consecutive years.[5][6] A feature film adaptation of Ender's Game, which Card co-produced, was released in 2013.[7]
+
+Card is a professor of English at Southern Virginia University,[8] has written two books on creative writing, hosts writing bootcamps and workshops, and serves as a judge in the Writers of the Future contest.[9] A great-great-grandson of Brigham Young, Card is a practicing member of The Church of Jesus Christ of Latter-day Saints (LDS Church). In addition to producing a large body of fiction works, he has also offered political, religious, and social commentary in his columns and other writing.
+
+He has written under a number of pseudonyms, including Frederick Bliss, Brian Green, P.Q. Gump, Dinah Kirkham, Scott Richards, and Byron Walley.</field>
+      </record>
+
+
+        <!-- Publishing houses -->
+
+      <record id="pubhouse1" model="library.publishing_house">
+          <field name="name">Random House Mondadory</field>
+      </record>
+
+      <record id="pubhouse2" model="library.publishing_house">
+          <field name="name">DeBolsillo</field>
+      </record>
+
+      <record id="pubhouse3" model="library.publishing_house">
+          <field name="name">Minotauro</field>
+      </record>
+
+      <record id="pubhouse4" model="library.publishing_house">
+          <field name="name">Libros del K.O.</field>
+      </record>
+
+
+        <!-- Books -->
+
+      <record id="book1" model="library.book">
+          <field name="name">El señor de los anillos</field>
+          <field name="internal_code">SF_0001</field>
+          <field name="active">True</field>
+          <field name="date_purchase" >2017-08-01</field>
+          <field name="date_publishing" >1954-06-19</field>
+          <field name="id_number" >9788445071793</field>
+          <field name="state" >available</field>
+          <field name="genre_id" ref="genre1"></field>
+          <field name="author_id" ref="author1"></field>
+          <field name="publishing_house_id" ref="pubhouse3"></field>
+          <field name="description">Cuatro volumenes en uno en los que se ofrecen los mapas y apéndices originales de J.R.R. Tolkien , un índice de canciones y nombres de personajes y lugares del peculiar mundo creado por este autor en esta obra maestra de la literatura fantástica. Además, se incluyen 50 ilustraciones en color de Alan Lee .</field>
+      </record>
+
+      <record id="book2" model="library.book">
+          <field name="name">El Hobbit</field>
+          <field name="internal_code">SF_002</field>
+          <field name="active">True</field>
+          <field name="date_purchase" >2017-08-01</field>
+          <field name="date_publishing" >2002-06-24</field>
+          <field name="id_number">9788445073803</field>
+          <field name="state">available</field>
+          <field name="genre_id" ref="genre1"></field>
+          <field name="author_id" ref="author1"></field>
+          <field name="publishing_house_id" ref="pubhouse3"></field>
+          <field name="description">Un gran clásico moderno y el preludio a las vastas y poderosas mitologías de El Señor de Los Anillos..
+Cuando alrededor de 1930, J. R. R. Tolkien comenzó a escribir El hobbit, hacía ya diez años que trabajaba en el vasto panorama mitológico de El Libro de los Relatos, que más tarde se llamaría El Silmarillion. Así como esas crónicas tempranas narraban los mitos inmemoriales de la Primera y Segunda Edad, Tolkien pronto advirtió que El hobbit iba ordenándose de algún modo como un relato de la Tercera Edad (Gandalf habla del Nigromante en las primeras páginas), aunque las inesperadas aventuras de un pacífico hombre del campo no parecieran tener mucha relación con las vastas y oscuras mitologías de la Tierra Media. El estilo directo y lineal, con alusiones (que el autor deploró más tarde) a un público infantil, no impide la poderosa irrupción -- unas pocas veces en términos de comedia -- de los grandes temas tolkienianos (el poder, la codicia, la guerra, la muerte) que reaparecerían en una dimensión a menudo obviamente épica en El Señor de los Anillos.
+Todos los que aman esos libros para niños que pueden ser leídos y releídos por adultos-- escribió C. S. Lewis a propósito de la aparición de The Hobbit en 1937-- han de tomar buena cuenta que una nueva estrella ha aparecido en esa constelación. Para el ojo entrenado algunos de los caracteres han de parecer casi mitopoieicos.
+Uno de los libros más influyentes de nuestro tiempo... Una impecable obra maestra. -- The Times
+Una saga espléndidamente escrita de enanos y elfos, duendes y trasgos terribles... una excitante épica de viajes y aventuras mágicas que alcanza al fin un clímax devastador.--The Observer</field>
+      </record>
+
+      <record id="book3" model="library.book">
+          <field name="name">Fundación</field>
+          <field name="internal_code">SF_003</field>
+          <field name="active">True</field>
+          <field name="date_purchase">2017-08-01</field>
+          <field name="date_publishing">2013-06-01</field>
+          <field name="id_number">9788497599245</field>
+          <field name="state">available</field>
+          <field name="genre_id" ref="genre1"></field>
+          <field name="author_id" ref="author2"></field>
+          <field name="publishing_house_id" ref="pubhouse2"></field>
+          <field name="description">Una colección de cinco relatos cortos que conforman el primer volumen de la trilogía Las Fundaciones. Hari Seldon, la mente científica más poderosa de su tiempo, prevé un desastre: el Imperio estaba condenado.</field>
+      </record>
+
+      <record id="book4" model="library.book">
+          <field name="name">Dune</field>
+          <field name="internal_code">SF_004</field>
+          <field name="active">True</field>
+          <field name="date_purchase" >2017-08-01</field>
+          <field name="date_publishing" >2015-08-01</field>
+          <field name="id_number">9788497596824</field>
+          <field name="state">available</field>
+          <field name="genre_id" ref="genre1"></field>
+          <field name="author_id" ref="author3"></field>
+          <field name="publishing_house_id" ref="pubhouse2"></field>
+          <field name="description"></field>
+      </record>
+
+      <record id="book5" model="library.book">
+          <field name="name">La sombra de Ender</field>
+          <field name="internal_code">SF_005</field>
+          <field name="active">True</field>
+          <field name="date_purchase" >2017-08-01</field>
+          <field name="date_publishing" >2011-08-01</field>
+          <field name="id_number">9788498725919</field>
+          <field name="state" >available</field>
+          <field name="genre_id" ref="genre1"></field>
+          <field name="author_id" ref="author5"></field>
+          <field name="publishing_house_id" ref="pubhouse2"></field>
+          <field name="description">Ender no era el único niño en la Escuela de Batalla, sólo el mejor entre los mejores. Bean, un ser casi tan superdotado como Ender, verá en éste a un rival, pero también a un líder irrepetible. Con su prodigiosa inteligencia, Bean ve y deduce incluso lo que Ender no llega a conocer. Lugarteniente, amigo, tal vez posible suplente, Bean nos muestra el trasfondo de lo que ocurría en la Escuela de Batalla y de lo que, quizá, Ender nunca llegó a saber. Novela paralela y complementaria a El juego de Ender, ilumina los acontecimientos desde el punto de vista de Bean y refuerza el incuestionable atractivo de esta saga mítica.</field>
+      </record>
+
+      <record id="book6" model="library.book">
+          <field name="name">Fariña</field>
+          <field name="internal_code">IN_0001</field>
+          <field name="active">True</field>
+          <field name="date_purchase">2017-08-01</field>
+          <field name="date_publishing">2016-08-01</field>
+          <field name="id_number">9788416001460</field>
+          <field name="state">available</field>
+          <field name="genre_id" ref="genre2"></field>
+          <field name="author_id" ref="author4"></field>
+          <field name="publishing_house_id" ref="pubhouse4"></field>
+          <field name="description">Coca, farlopa, perico, merca, Fariña.Nunca Galicia comercializó un producto con tanto éxito. Aunque ahora parezca una pesadilla lejana, en los años 90 el 80 por ciento de la cocaína desembarcaba en Europa por las costas gallegas. A través de testimonios directos de capos, pilotos de planeadoras, arrepentidos, jueces, policías, periodistas y madres de toxicómanos, Nacho Carretero retrata con minuciosidad este paisaje criminal. Fariña incluye, además, un repaso inédito por los clanes que siguen operando hoy en día.</field>
+      </record>
+
     </data>
 </odoo>

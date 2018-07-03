@@ -19,8 +19,8 @@ class member(models.Model):
     address = fields.Char(size=32, string='Adress')
     city = fields.Char(size=32, string='City')
     postalcode = fields.Char('Postal code')
-    date_penalty = fields.Date(string='Date penalty')
-    penalty_state = fields.Selection([('ok', 'OK'), ('penalty', 'Penalty')], string='Penalty', default='ok')
+    date_penalty = fields.Date(string='Date penalty', default=False)
+    penalty_state = fields.Char(compute='_penalty_state')
 
     _sql_constraints = [('DNI_uniq', 'unique (id_number)', "DNI/NIE already exists !")]
 
@@ -64,6 +64,16 @@ class member(models.Model):
             members = self.search(args, limit=limit)
         return members.name_get()
 
+    @api.multi
+    def _penalty_state(self):
+        for record in self:
+            fecha_hoy = fields.datetime.today()
+            if (record.date_penalty):
+                fecha_pen = datetime.strptime(record.date_penalty, '%Y-%m-%d')
+                if (fecha_hoy > fecha_pen):
+                    record.update({'date_penalty' : False, 'penalty_state' : ''})
+                else:
+                    record.update({'penalty_state' : u'lalala'})
 
 class book(models.Model):
     # Libros de la biblioteca
@@ -118,7 +128,6 @@ class book(models.Model):
         else:
             books = self.search(args, limit=limit)
         return books.name_get()
-
 
 class author(models.Model):
     # Autores
@@ -206,7 +215,6 @@ class loan(models.Model):
                     date_penalty = fecha_hoy + dias_tarde
                     member = self.env['library.member'].search([('id', '=', record['member_id'].id)])
                     member.write({'date_penalty' : date_penalty})
-                    member.write({'penalty_state' : 'penalty'})
 
                     #CUADRO DE DIALOGO: SANCIÓN
                     view = self.env.ref('library.message_wizard')

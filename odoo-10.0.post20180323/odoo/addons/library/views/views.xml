@@ -33,10 +33,10 @@
                       <group string="Membership">
                           <field name="membership_number" readonly="1"/>
                           <field name="date_membership"/>
-                          <field name="penalty_state" invisible="1"/>
                       </group>
                   </group>
                   <group>
+                      <field name="penalty_state"/>
                       <field name="date_penalty" attrs="{'invisible':[('penalty_state','!=', 'penalty')]}"/>
                   </group>
               </sheet>
@@ -253,8 +253,8 @@
         <field name="model">library.loan</field>
         <field name="arch" type="xml">
             <search string="Search loans">
-                <field name="date_return" string="Date return"/>
-                <field name="state" string="State"/>
+                <field name="member_id" string="Member"/>
+                <field name="book_id" string="Book"/>
                 <filter name="actives" string="Active loans" domain="[('state', 'in', ['new','1_renewal','2_renewal'])]"/>
                 <group expand="0" string="Group By">
                     <filter string="Book" domain="[]" context="{'group_by':'book_id'}"/>

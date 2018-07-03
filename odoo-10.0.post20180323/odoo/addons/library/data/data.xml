@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+                <!-- Genres -->
+
+      <record id="genre1" model="library.genre">
+          <field name="name">Science Fiction</field>
+          <field name="code">SF</field>
+      </record>
+
+      <record id="genre2" model="library.genre">
+          <field name="name">Investigation</field>
+          <field name="code">IN</field>
+      </record>
+
+    </data>
+</odoo>
