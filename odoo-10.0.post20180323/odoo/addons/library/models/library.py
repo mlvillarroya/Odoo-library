@@ -165,7 +165,7 @@ class loan(models.Model):
         numero_prestamos=len(prestamos)
         if (numero_prestamos>=3):
             raise UserError(_("The maxim numer of loans per person is 3, please return a book before loaning one more"))
-        #TODO CORRECTO, PROCEDEMOS AL PRÉSTAMO
+        #CORRECTO, PROCEDEMOS AL PRÉSTAMO
         #cambiar el estado del libro a prestado
         libro = self.env['library.book'].search([('id', '=', data['book_id'])])
         libro.state = 'lent'
