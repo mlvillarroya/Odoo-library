@@ -151,18 +151,31 @@ class loan(models.Model):
     book_id = fields.Many2one('library.book', required=True, string='Book', domain="[('state','=','available')]")
     date_loan = fields.Date(string='Date loan', default=fields.Datetime.now)
     date_return = fields.Date(string='Date return')
-    state = fields.Selection([('new', 'New'), ('1_renewal', 'First renewal'), ('2_renewal', 'Second renewal'), ('returned','Returned')], string='State', default='new')
+    state = fields.Selection([('creation', 'Creation'), ('new', 'New'), ('1_renewal', 'First renewal'), ('2_renewal', 'Second renewal'), ('returned','Returned')], string='State', default='creation')
 
     @api.model
     def create(self, data):
-        libro = self.env['library.book'].search([('id', '=', data['book_id'])])
-        libro.state = 'lent'
-        fecha_hoy=fields.datetime.today()
-        data['date_return'] = fecha_hoy+timedelta(days=30)
+        #COMPROBACIONES
+        #  1 - El usuario no tiene una sanción
+        member = self.env['library.member'].search([('id', '=', data['member_id'])])
+        if (member.penalty_state=='penalty'):
+            raise UserError(_("The member is under penalty until " + member.date_penalty + ", cannot proceed with the loan"))
+        #  2 - El mismo usuario no ha pedido tres libros
         prestamos = self.env['library.loan'].search([('member_id', '=', data['member_id']),('state', 'in', ['new','1_renewal','2_renewal'])])
         numero_prestamos=len(prestamos)
         if (numero_prestamos>=3):
             raise UserError(_("The maxim numer of loans per person is 3, please return a book before loaning one more"))
+        #TODO CORRECTO, PROCEDEMOS AL PRÉSTAMO
+        #cambiar el estado del libro a prestado
+        libro = self.env['library.book'].search([('id', '=', data['book_id'])])
+        libro.state = 'lent'
+        #si el socio tuviera alguna sanción antigua, se la quitamos
+        member.write({'date_penalty' : False})
+        #calcular la fecha de devolución
+        fecha_hoy=fields.datetime.today()
+        data['date_return'] = fecha_hoy+timedelta(days=30)
+        #activar el préstamo
+        data['state']='new'
         return super(loan, self).create(data)
 
     @api.multi

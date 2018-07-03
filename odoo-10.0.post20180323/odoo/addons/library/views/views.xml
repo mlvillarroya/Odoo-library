@@ -36,7 +36,6 @@
                       </group>
                   </group>
                   <group>
-                      <field name="penalty_state" attrs="{'invisible':[('penalty_state','!=', 'penalty')]}"/>
                       <field name="date_penalty" attrs="{'invisible':[('penalty_state','!=', 'penalty')]}"/>
                   </group>
               </sheet>
@@ -214,8 +213,8 @@
       <field name="arch" type="xml">
           <form string="loan">
               <header>
-                 <button string="Renew loan" type="object" name="renew_loan" attrs="{'invisible': [('state', '=', 'returned')]}"/>
-                 <button string="Return loan" type="object" name="return_loan" attrs="{'invisible': [('state', '=', 'returned')]}"/>
+                 <button string="Renew loan" type="object" name="renew_loan" attrs="{'invisible': [('state', 'in', ('returned', 'creation'))]}"/>
+                 <button string="Return loan" type="object" name="return_loan" attrs="{'invisible': [('state', 'in', ('returned', 'creation'))]}"/>
               </header>
               <sheet>
                   <group>
