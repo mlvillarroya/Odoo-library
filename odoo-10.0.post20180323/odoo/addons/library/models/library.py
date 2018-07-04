@@ -214,36 +214,40 @@ class loan(models.Model):
     @api.multi
     def return_loan(self):
         for record in self:
-            res = {}
             if ('date_return' in record):
+                #cambiamos el estad del préstamo a devuelto
                 record.write({'state': 'returned'})
+                #cambiamos el estado del libro a disponible
                 libro = self.env['library.book'].search([('id', '=', record.book_id.id)])
                 libro.write({'state': 'available'})
+                #calculamos la fecha de hoy y la de devolución. Se ha devuelto tarde?
                 fecha_hoy=fields.datetime.today()
                 fecha_dev=datetime.strptime(record.date_return,'%Y-%m-%d')
                 if (fecha_hoy>fecha_dev):
                     dias_tarde = fecha_hoy-fecha_dev
-                    date_penalty = fecha_hoy + dias_tarde
+                    # consultamos el socio. Tenía alguna penalización ya?
                     member = self.env['library.member'].search([('id', '=', record['member_id'].id)])
+                    if (member.date_penalty):
+                        fecha_hoy = datetime.strptime(member.date_penalty, '%Y-%m-%d')
+                    date_penalty = fecha_hoy + dias_tarde
                     member.write({'date_penalty' : date_penalty})
-                    #TODO SUMAR LAS SANCIONES SI SE DEVUELVE MÁS DE UN LIBRO TARDE
-                    #CUADRO DE DIALOGO: SANCIÓN
-                    view = self.env.ref('library.message_wizard')
-                    view_id = view and view.id or False
-                    context = dict(self._context or {})
-                    context['message'] = 'Por haber entregado el libro '+ str(dias_tarde.days) + ' días tarde, no se podrá efectuar ningún préstamo hasta pasado el ' + datetime.strftime(date_penalty,'%d/%m/%Y')
-                    return {
-                        'name': 'Sanción',
-                        'type': 'ir.actions.act_window',
-                        'view_type': 'form',
-                        'view_mode': 'form',
-                        'view_id': view_id,
-                        'res_model': 'library.message',
-                        'views': [(view.id, 'form')],
-                        'view_id': view.id,
-                        'target': 'new',
-                        'context': context,
-                    }
+        #CUADRO DE DIALOGO: SANCIÓN
+        view = self.env.ref('library.message_wizard')
+        view_id = view and view.id or False
+        context = dict(self._context or {})
+        context['message'] = 'Por haber entregado el libro '+ str(dias_tarde.days) + ' días tarde, no se podrá efectuar ningún préstamo hasta pasado el ' + datetime.strftime(date_penalty,'%d/%m/%Y')
+        return {
+            'name': 'Sanción',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': view_id,
+            'res_model': 'library.message',
+            'views': [(view.id, 'form')],
+            'view_id': view.id,
+            'target': 'new',
+            'context': context,
+        }
 
 class genre(models.Model):
     #Géneros de libro
@@ -252,3 +256,5 @@ class genre(models.Model):
     name = fields.Char(size=32, string='Book\'s genre', index=True)
     code = fields.Char(size=2, string='Code')
     description = fields.Text(string='Description')
+
+#TODO CLASE PARA LA CONFIGURACIÓN
