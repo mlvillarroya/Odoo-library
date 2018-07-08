@@ -13,19 +13,31 @@
                         <button string="Cancel" type="object"
                             name="cancel" class="oe_link"/>
                     </header>
-                    <group string="Postal code">
+                    <group string="Loan settings">
+                        <div>
+                            <div>
+                                <label for="num_max_books"/>
+                                <field name="num_max_books"/>
+                            </div>
+                            <div>
+                                <label for="penalize_late_loans"/>
+                                <field name="penalize_late_loans"/>
+                            </div>
+                            <div>
+                                <label for="penalty_days_per_day"/>
+                                <field name="penalty_days_per_day"/>
+                            </div>
+                        </div>
+                    </group>
+                    <group string="Default values for members">
                         <div>
                             <div>
                                 <label for="default_postalcode"/>
                                 <field name="default_postalcode"/>
                             </div>
-                        </div>
-                    </group>
-                    <group string="Maxim number of books in a loan">
-                        <div>
                             <div>
-                                <label for="num_max_books"/>
-                                <field name="num_max_books"/>
+                                <label for="default_city"/>
+                                <field name="default_city"/>
                             </div>
                         </div>
                     </group>

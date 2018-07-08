@@ -157,11 +157,12 @@ class loan(models.Model):
         member = self.env['library.member'].search([('id', '=', data['member_id'])])
         if (member.penalty_state=='penalty'):
             raise UserError(_("The member is under penalty until " + member.date_penalty + ", cannot proceed with the loan"))
-        #  2 - El mismo usuario no ha pedido tres libros
+        #  2 - El mismo usuario no ha pedido el número máximo de libros
+        num_max = self.env.user.company_id.num_max_books
         prestamos = self.env['library.loan'].search([('member_id', '=', data['member_id']),('state', 'in', ['new','1_renewal','2_renewal'])])
         numero_prestamos=len(prestamos)
-        if (numero_prestamos>=3):
-            raise UserError(_("The maxim numer of loans per person is 3, please return a book before loaning one more"))
+        if (numero_prestamos>=num_max):
+            raise UserError(_("The maxim numer of loans per person is " + str(num_max) + ", please return a book before loaning one more"))
         #CORRECTO, PROCEDEMOS AL PRÉSTAMO
         #cambiar el estado del libro a prestado
         libro = self.env['library.book'].search([('id', '=', data['book_id'])])
@@ -217,34 +218,41 @@ class loan(models.Model):
                 #cambiamos el estado del libro a disponible
                 libro = self.env['library.book'].search([('id', '=', record.book_id.id)])
                 libro.write({'state': 'available'})
-                #calculamos la fecha de hoy y la de devolución. Se ha devuelto tarde?
-                fecha_hoy=fields.datetime.today()
-                fecha_dev=datetime.strptime(record.date_return,'%Y-%m-%d')
-                if (fecha_hoy>fecha_dev):
-                    dias_tarde = fecha_hoy-fecha_dev
-                    # consultamos el socio. Tenía alguna penalización ya?
-                    member = self.env['library.member'].search([('id', '=', record['member_id'].id)])
-                    if (member.date_penalty):
-                        fecha_hoy = datetime.strptime(member.date_penalty, '%Y-%m-%d')
-                    date_penalty = fecha_hoy + dias_tarde
-                    member.write({'date_penalty' : date_penalty})
-        #CUADRO DE DIALOGO: SANCIÓN
-        view = self.env.ref('library.message_wizard')
-        view_id = view and view.id or False
-        context = dict(self._context or {})
-        context['message'] = 'Por haber entregado el libro '+ str(dias_tarde.days) + ' días tarde, no se podrá efectuar ningún préstamo hasta pasado el ' + datetime.strftime(date_penalty,'%d/%m/%Y')
-        return {
-            'name': 'Sanción',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'view_id': view_id,
-            'res_model': 'library.message',
-            'views': [(view.id, 'form')],
-            'view_id': view.id,
-            'target': 'new',
-            'context': context,
-        }
+                #se ha configurado la aplicación para penalizar las devoluciones tarde?
+                penalize = self.env.user.company_id.penalize_late_loans
+                if (penalize):
+                    #calculamos la fecha de hoy y la de devolución. Se ha devuelto tarde?
+                    fecha_hoy=fields.datetime.today()
+                    fecha_dev=datetime.strptime(record.date_return,'%Y-%m-%d')
+                    if (fecha_hoy>fecha_dev):
+                        dias_tarde = fecha_hoy-fecha_dev
+                        # consultamos el socio. Tenía alguna penalización ya?
+                        member = self.env['library.member'].search([('id', '=', record['member_id'].id)])
+                        if (member.date_penalty):
+                            fecha_hoy = datetime.strptime(member.date_penalty, '%Y-%m-%d')
+                        #Recogemos de la configuración la penalización por día, y multiplicamos los días tarde por la penalización diaria
+                        penalty_per_day = self.env.user.company_id.penalty_days_per_day
+                        penalty_days = timedelta(dias_tarde.days * penalty_per_day)
+                        date_penalty = fecha_hoy + penalty_days
+                        member.write({'date_penalty' : date_penalty})
+                        if (len(self)==1):
+                            #CUADRO DE DIALOGO: SANCIÓN
+                            view = self.env.ref('library.message_wizard')
+                            view_id = view and view.id or False
+                            context = dict(self._context or {})
+                            context['message'] = 'Por haber entregado el libro '+ str(dias_tarde.days) + ' días tarde, no se podrá efectuar ningún préstamo hasta pasado el ' + datetime.strftime(date_penalty,'%d/%m/%Y')
+                            return {
+                                'name': 'Sanción',
+                                'type': 'ir.actions.act_window',
+                                'view_type': 'form',
+                                'view_mode': 'form',
+                                'view_id': view_id,
+                                'res_model': 'library.message',
+                                'views': [(view.id, 'form')],
+                                'view_id': view.id,
+                                'target': 'new',
+                                'context': context,
+                            }
 
 class genre(models.Model):
     #Géneros de libro

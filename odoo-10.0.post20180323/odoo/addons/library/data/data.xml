@@ -4,6 +4,8 @@
                 <!--MODULE DEFAULT SETTINGS-->
         <record id="base.main_company" model="res.company">
             <field name="num_max_books">3</field>
+            <field name="penalize_late_loans">True</field>
+            <field name="penalty_days_per_day">1.00</field>
         </record>
 
                 <!-- Genres -->

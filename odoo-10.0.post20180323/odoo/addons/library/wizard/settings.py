@@ -7,10 +7,13 @@ class LibrarySettings(models.TransientModel):
     _name = 'library.config.settings'
 
     default_postalcode = fields.Char(default_model='library.member', string='Default postal code')
-    num_max_books = fields.Integer()
+    default_city = fields.Char(default_model='library.member', string='Default city')
+    num_max_books=fields.Integer(string="Maximum number of books in one loan")
+    penalize_late_loans=fields.Boolean(string="Penalize loans that return late")
+    penalty_days_per_day=fields.Float(string="Penalty days per day late (can be decimal)")
 
     @api.model
-    def get_default_company_values(self, fields):
+    def get_default_loan_values(self, fields):
         """
         Method argument "fields" is a list of names
         of all available fields.
@@ -18,9 +21,14 @@ class LibrarySettings(models.TransientModel):
         company = self.env.user.company_id
         return {
             'num_max_books': company.num_max_books,
+            'penalize_late_loans': company.penalize_late_loans,
+            'penalty_days_per_day': company.penalty_days_per_day,
+
         }
 
     @api.one
-    def set_company_values(self):
+    def set_loan_values(self):
         company = self.env.user.company_id
         company.num_max_books = self.num_max_books
+        company.penalize_late_loans = self.penalize_late_loans
+        company.penalty_days_per_day = self.penalty_days_per_day

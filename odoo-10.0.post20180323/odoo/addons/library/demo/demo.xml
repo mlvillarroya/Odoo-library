@@ -1,5 +1,5 @@
 <odoo>
-    <data>
+    <data noupdate="1">
 
         <!-- Authors -->
 
@@ -152,6 +152,19 @@ Una saga espléndidamente escrita de enanos y elfos, duendes y trasgos terribles
           <field name="publishing_house_id" ref="pubhouse4"></field>
           <field name="description">Coca, farlopa, perico, merca, Fariña.Nunca Galicia comercializó un producto con tanto éxito. Aunque ahora parezca una pesadilla lejana, en los años 90 el 80 por ciento de la cocaína desembarcaba en Europa por las costas gallegas. A través de testimonios directos de capos, pilotos de planeadoras, arrepentidos, jueces, policías, periodistas y madres de toxicómanos, Nacho Carretero retrata con minuciosidad este paisaje criminal. Fariña incluye, además, un repaso inédito por los clanes que siguen operando hoy en día.</field>
       </record>
+
+        <!--Members-->
+
+      <record id="member1" model="library.member">
+          <field name="name">Juan José Padilla</field>
+          <field name="id_number">43757433W</field>
+          <field name="email" >padilla@piratas.com</field>
+          <field name="phone" >686112233</field>
+          <field name="address" >Calle de los Mutilados 7</field>
+          <field name="city" >Buenavista</field>
+          <field name="postalcode">28001</field>
+      </record>
+
 
     </data>
 </odoo>
