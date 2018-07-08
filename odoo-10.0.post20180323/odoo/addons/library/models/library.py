@@ -56,9 +56,6 @@ class member(models.Model):
         if not args:
             args = []
         if name:
-            #members = self.search([('name', 'ilike', name)] + args, limit=limit)
-            #if not members:
-            #members = self.search([('membership_number', 'ilike', name)] + args, limit=limit)
             members = self.search(['|',('name', 'ilike', name),('membership_number', 'ilike', name)] + args, limit=limit)
         else:
             members = self.search(args, limit=limit)
@@ -256,5 +253,3 @@ class genre(models.Model):
     name = fields.Char(size=32, string='Book\'s genre', index=True)
     code = fields.Char(size=2, string='Code')
     description = fields.Text(string='Description')
-
-#TODO CLASE PARA LA CONFIGURACIÓN

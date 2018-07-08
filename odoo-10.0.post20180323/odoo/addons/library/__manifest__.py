@@ -29,6 +29,7 @@
         'views/templates.xml',
         'wizard/message_wizard.xml',
         'wizard/return_loan.xml',
+        'wizard/settings.xml',
         'data/data.xml',
     ],
     # only loaded in demonstration mode

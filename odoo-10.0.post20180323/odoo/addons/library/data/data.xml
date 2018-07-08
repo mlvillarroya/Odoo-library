@@ -1,16 +1,21 @@
 <odoo>
-    <data>
+    <data noupdate="1">
+
+                <!--MODULE DEFAULT SETTINGS-->
+        <record id="base.main_company" model="res.company">
+            <field name="num_max_books">3</field>
+        </record>
+
                 <!-- Genres -->
+        <record id="genre1" model="library.genre">
+            <field name="name">Science Fiction</field>
+            <field name="code">SF</field>
+          </record>
 
-      <record id="genre1" model="library.genre">
-          <field name="name">Science Fiction</field>
-          <field name="code">SF</field>
-      </record>
-
-      <record id="genre2" model="library.genre">
-          <field name="name">Investigation</field>
-          <field name="code">IN</field>
-      </record>
+        <record id="genre2" model="library.genre">
+            <field name="name">Investigation</field>
+            <field name="code">IN</field>
+          </record>
 
     </data>
 </odoo>
