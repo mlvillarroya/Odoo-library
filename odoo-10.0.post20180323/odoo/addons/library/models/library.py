@@ -169,9 +169,11 @@ class loan(models.Model):
         libro.state = 'lent'
         #si el socio tuviera alguna sanción antigua, se la quitamos
         member.write({'date_penalty' : False})
+        #rescatamos el número de días para el préstamo
+        loan_days = self.env.user.company_id.loan_days
         #calcular la fecha de devolución
         fecha_hoy=fields.datetime.today()
-        data['date_return'] = fecha_hoy+timedelta(days=30)
+        data['date_return'] = fecha_hoy+timedelta(days=loan_days)
         #activar el préstamo
         data['state']='new'
         return super(loan, self).create(data)
@@ -196,8 +198,9 @@ class loan(models.Model):
         fecha_hoy = fields.datetime.today()
         fecha_dev = datetime.strptime(self.date_return, '%Y-%m-%d')
         if (fecha_hoy < fecha_dev):
+            loan_days = self.env.user.company_id.loan_days
             fecha_hoy=fields.datetime.today()
-            fecha_nueva=fecha_hoy+timedelta(days=30)
+            fecha_nueva=fecha_hoy+timedelta(days=loan_days)
             if (self.state != '2_renewal'):
                 if (self.state == 'new'):
                     estado='1_renewal'

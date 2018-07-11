@@ -16,6 +16,10 @@
                     <group string="Loan settings">
                         <div>
                             <div>
+                                <label for="loan_days"/>
+                                <field name="loan_days"/>
+                            </div>
+                            <div>
                                 <label for="num_max_books"/>
                                 <field name="num_max_books"/>
                             </div>

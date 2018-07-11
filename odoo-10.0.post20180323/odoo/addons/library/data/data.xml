@@ -6,6 +6,7 @@
             <field name="num_max_books">3</field>
             <field name="penalize_late_loans">True</field>
             <field name="penalty_days_per_day">1.00</field>
+            <field name="loan_days">30</field>
         </record>
 
                 <!-- Genres -->
