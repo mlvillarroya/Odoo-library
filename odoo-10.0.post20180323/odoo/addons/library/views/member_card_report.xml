@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- QWeb Reports -->
+
+    <report
+        id="action_report_print_card"
+        model="library.member"
+        report_type="qweb-pdf"
+        string="Member Label"
+        name="library.member_card_report"
+        file="library.member_card_report"
+        />
+
+    <template id="member_card_report">
+        <t t-call="report.html_container">
+            <div class="page">
+                <t t-foreach="docs" t-as="member">
+                    <div class="col-xs-6" style="padding:0;">
+                        <table style="width: 80%; border: 2px solid black; border-collapse:separate; border-radius:8pt; margin:5pt; padding:5pt">
+                            <td style="width: 2.63in;" colspan="2" class="col-xs-8 danger"  align="center">
+                                <table style="width: 1in;">
+                                    <tr><th><div style="font-size:20pt; margin-bottom:0pt;margin-top:0pt;" align="center"><t t-esc="member.name"/></div></th></tr>
+                                    <tr><td><div style="font-size:12pt;" align="center"><t t-esc="member.email"/>&amp;nbsp;</div></td></tr>
+                                    <tr><td><div style="font-size:13pt;" align="center"><t t-esc="member.phone"/>&amp;nbsp;</div></td></tr>
+                                    <tr><td><div style="font-size:13pt;" align="center"><t t-esc="member.address"/>&amp;nbsp;</div></td></tr>
+                                    <tr><td><div style="font-size:13pt;" align="center"><t t-esc="member.city"/>
+                                    &amp;nbsp;</div></td></tr>
+
+                                </table>
+                            </td>
+                        </table>
+                        <br/>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

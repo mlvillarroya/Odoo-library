@@ -31,6 +31,7 @@
         'wizard/return_loan.xml',
         'wizard/settings.xml',
         'data/data.xml',
+        'views/member_card_report.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
